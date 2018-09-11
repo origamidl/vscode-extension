@@ -1,0 +1,71 @@
+{
+    "name": "@origami-dsl/vscode",
+    "displayName": "Origami",
+    "description": "Origami language support and embedded runtime",
+    "version": "0.0.1",
+    "publisher": "padarom",
+    "main": "out/src/extension",
+    "engines": {
+        "vscode": "^1.27.0"
+    },
+    "activationEvents": [
+        "onLanguage:origami",
+        "onCommand:origami-vscode.openPreview"
+    ],
+    "categories": [
+        "Languages"
+    ],
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "contributes": {
+        "commands": [
+            {
+                "command": "origami-vscode.openPreview",
+                "title": "Origami Definition Language: Open Preview",
+                "category": "Origami"
+            }
+        ],
+        "languages": [{
+            "id": "origami",
+            "aliases": ["Origami Definition Language", "origami"],
+            "extensions": ["origami"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "origami",
+            "scopeName": "source.origami",
+            "path": "./syntaxes/origami.tmLanguage.json"
+        }],
+        "keybindings": [
+            {
+                "command": "origami-vscode.openPreview",
+                "key": "ctrl+k v",
+                "mac": "cmd+k v",
+                "when": "editorLangId == origami"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "origami-vscode.openPreview",
+                    "when": "editorLangId == origami",
+                    "group": "origami-vscode"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "origami-vscode.openPreview",
+                    "when": "editorLangId == origami",
+                    "group": "navigation"
+                }
+            ]
+        }
+    },
+    "devDependencies": {
+        "typescript": "^2.0.3",
+        "vscode": "^1.1.13"
+    }
+}
