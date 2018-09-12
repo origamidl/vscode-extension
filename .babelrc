@@ -1,0 +1,14 @@
+{
+    "presets": ["@babel/env"],
+    "overrides": [{
+        "test": "./src/preview-script",
+        "presets": [
+            [
+                "@babel/env",
+                {
+                    "targets": { "chrome": ">58" }
+                }
+            ]
+        ]
+    }]
+}

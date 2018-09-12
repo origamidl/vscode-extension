@@ -4,7 +4,7 @@
     "description": "Origami language support and embedded runtime",
     "version": "0.0.1",
     "publisher": "padarom",
-    "main": "out/src/extension",
+    "main": "out/extension",
     "engines": {
         "vscode": "^1.27.0"
     },
@@ -17,8 +17,8 @@
     ],
     "scripts": {
         "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./"
+        "compile": "babel src --out-dir out",
+        "watch": "babel src --watch --out-dir out"
     },
     "contributes": {
         "commands": [
@@ -28,17 +28,26 @@
                 "category": "Origami"
             }
         ],
-        "languages": [{
-            "id": "origami",
-            "aliases": ["Origami Definition Language", "origami"],
-            "extensions": ["origami"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "origami",
-            "scopeName": "source.origami",
-            "path": "./syntaxes/origami.tmLanguage.json"
-        }],
+        "languages": [
+            {
+                "id": "origami",
+                "aliases": [
+                    "Origami Definition Language",
+                    "origami"
+                ],
+                "extensions": [
+                    "origami"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "origami",
+                "scopeName": "source.origami",
+                "path": "./syntaxes/origami.tmLanguage.json"
+            }
+        ],
         "keybindings": [
             {
                 "command": "origami-vscode.openPreview",
@@ -64,7 +73,13 @@
             ]
         }
     },
+    "dependencies": {
+        "@origami-dsl/webgl": "file://../webgl-runtime"
+    },
     "devDependencies": {
+        "@babel/cli": "^7.0.0",
+        "@babel/core": "^7.0.1",
+        "@babel/preset-env": "^7.0.0",
         "typescript": "^2.0.3",
         "vscode": "^1.1.13"
     }

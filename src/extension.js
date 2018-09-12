@@ -5,15 +5,15 @@ import {
     OrigamiDocumentContentProvider
 } from './preview-content-provider';
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context) {
     let previewUri = vscode.Uri.parse('origami-preview://preview');
 
     let provider = new OrigamiDocumentContentProvider(context);
     let registration = vscode.workspace.registerTextDocumentContentProvider('origami-preview', provider);
     let editor = vscode.window.activeTextEditor;
-    let _timeout: number;
+    let _timeout;
 
-    vscode.workspace.onDidChangeTextDocument((e: vscode.TextDocumentChangeEvent) => {
+    vscode.workspace.onDidChangeTextDocument((e) => {
         clearTimeout(_timeout);
         _timeout = setTimeout( function () {
             if (vscode.window.activeTextEditor && e && e.document === vscode.window.activeTextEditor.document) {
@@ -22,14 +22,14 @@ export function activate(context: vscode.ExtensionContext) {
         }, 1000);
     });
 
-    vscode.window.onDidChangeActiveTextEditor((e: vscode.TextEditor) => {
+    vscode.window.onDidChangeActiveTextEditor((e) => {
         if (e) {
             provider.update(previewUri);
             editor = e;
         }
     });
 
-    function openPreview (uri?: vscode.Uri) {
+    function openPreview (uri) {
         let resource = uri;
         if (!(resource instanceof vscode.Uri)) {
             if (vscode.window.activeTextEditor) {

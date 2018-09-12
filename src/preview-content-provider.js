@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import { 
     Event,
@@ -8,19 +8,15 @@ import {
     Uri
 } from 'vscode';
 
-export class OrigamiDocumentContentProvider implements TextDocumentContentProvider {
-    private _onDidChange = new EventEmitter<Uri>();
-    private _context: ExtensionContext;
+export class OrigamiDocumentContentProvider {
 
-    constructor (context: ExtensionContext) {
+    constructor (context) {
         this._context = context;
+
+        this._onDidChange = new EventEmitter();
     }
 
-    private getResourcePath(mediaFile) : string {
-        return this._context.asAbsolutePath(path.join('resources', mediaFile));
-    }
-
-    public provideTextDocumentContent(uri: Uri): string {
+    provideTextDocumentContent(uri) {
         let activeEditor = vscode.window.activeTextEditor;
         if (!activeEditor) {
             vscode.window.showErrorMessage('Select a text editor to show Origami preview.');
@@ -29,6 +25,8 @@ export class OrigamiDocumentContentProvider implements TextDocumentContentProvid
 
         let origamiName = activeEditor.document.fileName;
         let text = activeEditor.document.getText();
+
+        let scriptName = require.resolve('@origami-dsl/webgl/dist/browser');
 
         const content = `
         <head>
@@ -45,20 +43,20 @@ export class OrigamiDocumentContentProvider implements TextDocumentContentProvid
                     background-color: orange;
                 }
             </style>
+            <script src="file://${scriptName}"></script>
         </head>
-
         <body>
-            <div id="canvas">${text}</div>
+            <script type="application/origami">${text}</script>
         </body>`;
 
         return content;
     }
 
-    get onDidChange(): Event<Uri> {
+    onDidChange() {
         return this._onDidChange.event;
     }
 
-    public update(uri: Uri) {
+    update(uri) {
         this._onDidChange.fire(uri);
     }
 }
