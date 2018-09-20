@@ -1,5 +1,5 @@
 {
-    "name": "@origami-dsl/vscode",
+    "name": "@origamidl/vscode",
     "displayName": "Origami",
     "description": "Origami language support and embedded runtime",
     "version": "0.0.1",
@@ -74,7 +74,7 @@
         }
     },
     "dependencies": {
-        "@origami-dsl/webgl": "file://../webgl-runtime"
+        "@origamidl/webgl": "file://../webgl-runtime"
     },
     "devDependencies": {
         "@babel/cli": "^7.0.0",
